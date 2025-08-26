@@ -43,8 +43,8 @@ int main(void) {
                                        NULL);
   glass_init();
 
-  Str vertex_shader_str = read_file("shaders/default-vertex.glsl");
-  Str fragment_shader_str = read_file("shaders/default-fragment.glsl");
+  Str vertex_shader_str = read_file("tests/triangles/shaders/default-vertex.glsl");
+  Str fragment_shader_str = read_file("tests/triangles/shaders/default-fragment.glsl");
 
   GlassAttributes attributes = {0};
   glass_push_attribute(&attributes, GlassAttributeKindFloat, 3);

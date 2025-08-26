@@ -24,15 +24,15 @@ typedef struct {
 typedef Da(GlassAttribute) GlassAttributes;
 
 typedef struct {
-  u32 program;
-  u32 vertex_array;
-  u32 attributes_count;
+  u32             program;
+  u32             vertex_size;
+  GlassAttributes attributes;
 } GlassShader;
 
 typedef struct {
+  u32         vertex_array;
   u32         vertex_buffer;
   u32         index_buffer;
-  u32         vertex_size;
   u32         indices_count;
   GlassShader shader;
 } GlassObject;
@@ -43,10 +43,12 @@ void            glass_clear_screen(f32 r, f32 g, f32 b, f32 a);
 void            glass_push_attribute(GlassAttributes *attributes,
                                      GlassAttributeKind kind, u32 len);
 GlassShader     glass_init_shader(Str vertex_src, Str fragment_src,
-                                  GlassAttributes *attributes);
-GlassObject     glass_init_object(void *vertices, u32 vertices_size, u32 vertex_size,
-                                  u32 *indices, u32 indices_size, u32 indices_count,
-                                  GlassShader shader, bool is_mutable);
+                                  GlassAttributes attributes);
+GlassObject     glass_init_object(GlassShader shader);
+void            glass_object_put_data(GlassObject *object, void *vertices,
+                                      u32 vertices_size, u32 *indices,
+                                      u32 indices_size, u32 indices_count,
+                                      bool is_mutable);
 void            glass_render_object(GlassObject *object);
 
 #endif // GLASS_H
