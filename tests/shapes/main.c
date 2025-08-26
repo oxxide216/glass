@@ -28,14 +28,6 @@ int main(void) {
   glass_init();
 
   GlassShapes shapes = glass_init_shapes();
-  /*glass_init_triangle(&shapes, vec2(-0.5, -0.5),
-                      vec2(0.0, 0.5), vec2(0.5, -0.5),
-                      vec4(1.0, 0.0, 0.0, 1.0));
-  glass_init_quad(&shapes, vec2(-1.0, 1.0), vec2(0.5, 0.5),
-                  vec4(0.0, 1.0, 0.0, 1.0));
-  glass_init_circle(&shapes, vec2(0.75, -0.75), 0.25,
-                    vec4(0.0, 0.0, 0.5, 1.0));*/
-
   glass_init_triangle(&shapes, vec2(0.0, window.height),
                       vec2(window.width / 2.0, 0.0),
                       vec2(window.width, window.height),
