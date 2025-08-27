@@ -60,11 +60,11 @@ void glass_push_attribute(GlassAttributes *attributes, GlassAttributeKind kind, 
   DA_APPEND(*attributes, attribute);
 }
 
-GlassShader glass_init_shader(Str vertex_src, Str fragment_src, GlassAttributes attributes) {
-  GlassShader shader = { glCreateProgram(), 0, attributes };
+GlassShader glass_init_shader(Str vertex_src, Str fragment_src, GlassAttributes *attributes) {
+  GlassShader shader = { glCreateProgram(), 0, *attributes };
 
-  for (u32 i = 0; i < attributes.len; ++i) {
-    GlassAttribute *attribute = attributes.items + i;
+  for (u32 i = 0; i < attributes->len; ++i) {
+    GlassAttribute *attribute = attributes->items + i;
     AttributeKindData *data = attrib_kinds_data + attribute->kind;
 
     shader.vertex_size += attribute->len * data->size;
@@ -80,9 +80,9 @@ GlassShader glass_init_shader(Str vertex_src, Str fragment_src, GlassAttributes 
   glCompileShader(fragment);
   glass_print_shader_error(fragment);
 
-  glAttachShader(shader.program, vertex);
-  glAttachShader(shader.program, fragment);
-  glLinkProgram(shader.program);
+  glAttachShader(shader.id, vertex);
+  glAttachShader(shader.id, fragment);
+  glLinkProgram(shader.id);
 
   glDeleteShader(vertex);
   glDeleteShader(fragment);
@@ -90,9 +90,9 @@ GlassShader glass_init_shader(Str vertex_src, Str fragment_src, GlassAttributes 
   return shader;
 }
 
-GlassObject glass_init_object(GlassShader shader) {
+GlassObject glass_init_object(GlassShader *shader) {
   GlassObject object = {0};
-  object.shader = shader;
+  object.shader = *shader;
 
   glGenBuffers(1, &object.vertex_buffer);
   glGenBuffers(1, &object.index_buffer);
@@ -139,9 +139,42 @@ void glass_object_put_data(GlassObject *object, void *vertices,
   glBindVertexArray(0);
 }
 
+GlassTexture glass_init_texture(u8 *data, u32 width, u32 height,
+                                GlassTextureFilteringMode filtering_mode) {
+  GlassTexture texture = {0};
+  texture.width = width;
+  texture.height = height;
+
+  glGenTextures(1, &texture.id);
+  glBindTexture(GL_TEXTURE_2D, texture.id);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+  GLenum filtering_modes[] = { GL_NEAREST, GL_LINEAR };
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering_modes[filtering_mode]);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering_modes[filtering_mode]);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
+               0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  glGenerateMipmap(GL_TEXTURE_2D);
+
+  return texture;
+}
+
+void glass_push_texture(GlassObject *object, GlassTexture *texture) {
+  DA_APPEND(object->textures, *texture);
+}
+
+
 void glass_render_object(GlassObject *object) {
-  glUseProgram(object->shader.program);
+  glUseProgram(object->shader.id);
   glBindVertexArray(object->vertex_array);
+
+  for (u32 i = 0; i < object->textures.len; ++i) {
+    glActiveTexture(GL_TEXTURE0 + i);
+    glBindTexture(GL_TEXTURE_2D, object->textures.items[i].id);
+  }
 
   glDrawElements(GL_TRIANGLES, object->indices_count, GL_UNSIGNED_INT, NULL);
 }

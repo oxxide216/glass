@@ -7,7 +7,6 @@ static Str default_vertex_shader = STR_LIT(
   "#version 330 core\n"
   "uniform vec2 u_resolution;\n"
   "layout (location = 0) in vec2 i_pos;\n"
-  "out vec2 o_pos;\n"
   "void main(void) {\n"
   "  float x = i_pos.x / u_resolution.x * 2.0 - 1.0;\n"
   "  float y = 1.0 - i_pos.y / u_resolution.y * 2.0;\n"
@@ -18,7 +17,6 @@ static Str default_vertex_shader = STR_LIT(
 static Str default_fragment_shader = STR_LIT(
   "#version 330 core\n"
   "uniform vec4 u_color;\n"
-  "in vec2 o_pos;\n"
   "out vec4 frag_color;\n"
   "void main(void) {\n"
   "  frag_color = u_color;\n"
@@ -59,14 +57,14 @@ GlassShapes glass_init_shapes(void) {
   glass_push_attribute(&default_shader_attributes, GlassAttributeKindFloat, 2);
   shapes.default_shader = glass_init_shader(default_vertex_shader,
                                             default_fragment_shader,
-                                            default_shader_attributes);
+                                            &default_shader_attributes);
 
   GlassAttributes circle_shader_attributes = {0};
   glass_push_attribute(&circle_shader_attributes, GlassAttributeKindFloat, 2);
   glass_push_attribute(&circle_shader_attributes, GlassAttributeKindFloat, 2);
   shapes.circle_shader = glass_init_shader(circle_vertex_shader,
                                            circle_fragment_shader,
-                                           circle_shader_attributes);
+                                           &circle_shader_attributes);
 
   return shapes;
 }
@@ -79,7 +77,7 @@ void glass_init_triangle(GlassShapes *shapes, Vec2 a, Vec2 b, Vec2 c, Vec4 color
   Vec2 vertices[] = { a, b, c };
   u32 indices[] = { 0, 1, 2 };
 
-  GlassObject triangle = glass_init_object(shapes->default_shader);
+  GlassObject triangle = glass_init_object(&shapes->default_shader);
   glass_object_put_data(&triangle, vertices, sizeof(vertices),
                         indices, sizeof(indices), 3, true);
 
@@ -98,7 +96,7 @@ void glass_init_quad(GlassShapes *shapes, Vec2 pos, Vec2 size, Vec4 color) {
   };
   u32 indices[] = { 0, 1, 2, 2, 1, 3 };
 
-  GlassObject quad = glass_init_object(shapes->default_shader);
+  GlassObject quad = glass_init_object(&shapes->default_shader);
   glass_object_put_data(&quad, vertices, sizeof(vertices),
                         indices, sizeof(indices), 6, true);
 
@@ -117,7 +115,7 @@ void glass_init_circle(GlassShapes *shapes, Vec2 pos, f32 radius, Vec4 color) {
   };
   u32 indices[] = { 0, 1, 2, 2, 1, 3 };
 
-  GlassObject circle = glass_init_object(shapes->circle_shader);
+  GlassObject circle = glass_init_object(&shapes->circle_shader);
   glass_object_put_data(&circle, vertices, sizeof(vertices),
                         indices, sizeof(indices), 6, true);
 
