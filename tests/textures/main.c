@@ -1,7 +1,7 @@
 #include "shl_log.h"
 
-#include "winx/winx.h"
-#include "winx/event.h"
+#include "winx/src/winx.h"
+#include "winx/src/event.h"
 #include "glass.h"
 #include "params.h"
 #define STBI_NO_LINEAR
