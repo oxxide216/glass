@@ -68,7 +68,7 @@ bool process_event(WinxEvent *event, GlassObject *object,
     u32 vertices_size = get_texture_object_vertices(vertices, (f32) width, (f32) height);
     u32 indices[] = { 0, 1, 2, 2, 1, 3 };
 
-    glass_object_put_data(object, *vertices, vertices_size,
+    glass_put_object_data(object, *vertices, vertices_size,
                           indices, sizeof(indices), 6, false);
 
     glass_set_param_2f(shader, "u_resolution",
@@ -114,7 +114,7 @@ int main(void) {
   u32 texture_indices[] = { 0, 1, 2, 2, 1, 3 };
 
   GlassObject texture_object = glass_init_object(&texture_shader);
-  glass_object_put_data(&texture_object, texture_vertices, texture_vertices_size,
+  glass_put_object_data(&texture_object, texture_vertices, texture_vertices_size,
                         texture_indices, sizeof(texture_indices), 6, false);
   glass_push_texture(&texture_object, &texture);
 

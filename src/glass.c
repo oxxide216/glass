@@ -100,7 +100,7 @@ GlassObject glass_init_object(GlassShader *shader) {
   return object;
 }
 
-void glass_object_put_data(GlassObject *object, void *vertices,
+void glass_put_object_data(GlassObject *object, void *vertices,
                            u32 vertices_size, u32 *indices,
                            u32 indices_size, u32 indices_count,
                            bool is_mutable) {

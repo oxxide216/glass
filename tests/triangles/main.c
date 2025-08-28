@@ -52,14 +52,15 @@ int main(void) {
                                          fragment_shader_str,
                                          &attributes);
 
-  GlassObject triangle0 = glass_init_object(vertices0, sizeof(vertices0), 3,
-                                            indices0, sizeof(indices0),
-                                            ARRAY_LEN(indices0),
-                                            shader, false);
-  GlassObject triangle1 = glass_init_object(vertices1, sizeof(vertices1), 3,
-                                            indices1, sizeof(indices1),
-                                            ARRAY_LEN(indices1),
-                                            shader, false);
+  GlassObject triangle0 = glass_init_object(&shader);
+  glass_put_object_data(&triangle0, vertices0,
+                        sizeof(vertices0), indices0,
+                        sizeof(indices0), 3, false);
+
+  GlassObject triangle1 = glass_init_object(&shader);
+  glass_put_object_data(&triangle1, vertices1,
+                        sizeof(vertices1), indices1,
+                        sizeof(indices1), 3, false);
 
   bool is_running = true;
   while (is_running) {
