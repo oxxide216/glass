@@ -52,6 +52,7 @@ typedef enum {
 } GlassTextureFilteringMode;
 
 void            glass_init(void);
+void            glass_enable_depth(void);
 void            glass_resize(u32 width, u32 height);
 void            glass_clear_screen(f32 r, f32 g, f32 b, f32 a);
 void            glass_push_attribute(GlassAttributes *attributes,
