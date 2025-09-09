@@ -21,8 +21,7 @@ static AttributeKindData attrib_kinds_data[] = {
 };
 
 static GLenum pixel_kinds_gl[GlassPixelKindsCount] = {
-  [GlassPixelKindR] = GL_RED,
-  [GlassPixelKindRGB] = GL_RGB,
+  [GlassPixelKindSingleColor] = GL_RED,
   [GlassPixelKindRGBA] = GL_RGBA,
 };
 
@@ -163,6 +162,9 @@ GlassTexture glass_init_texture(u8 *data, u32 width, u32 height, GlassPixelKind 
   GLenum filtering_modes[] = { GL_NEAREST, GL_LINEAR };
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering_modes[filtering_mode]);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering_modes[filtering_mode]);
+
+  if (pixel_kind == GlassPixelKindSingleColor)
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
   glTexImage2D(GL_TEXTURE_2D, 0, pixel_kinds_gl[pixel_kind], width, height,
                0, pixel_kinds_gl[pixel_kind], GL_UNSIGNED_BYTE, data);

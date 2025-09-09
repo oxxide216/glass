@@ -30,8 +30,7 @@ typedef struct {
 } GlassShader;
 
 typedef enum {
-  GlassPixelKindR = 0,
-  GlassPixelKindRGB,
+  GlassPixelKindSingleColor = 0,
   GlassPixelKindRGBA,
   GlassPixelKindsCount,
 } GlassPixelKind;
