@@ -20,6 +20,12 @@ static AttributeKindData attrib_kinds_data[] = {
   [GlassAttributeKindUByte] =  { GL_UNSIGNED_BYTE, 1 },
 };
 
+static GLenum pixel_kinds_gl[GlassPixelKindsCount] = {
+  [GlassPixelKindR] = GL_RED,
+  [GlassPixelKindRGB] = GL_RGB,
+  [GlassPixelKindRGBA] = GL_RGBA,
+};
+
 void glass_init(void) {
   GLenum result = glewInit();
   if (GLEW_OK != result) {
@@ -142,7 +148,7 @@ void glass_put_object_data(GlassObject *object, void *vertices,
   glBindVertexArray(0);
 }
 
-GlassTexture glass_init_texture(u8 *data, u32 width, u32 height,
+GlassTexture glass_init_texture(u8 *data, u32 width, u32 height, GlassPixelKind pixel_kind,
                                 GlassTextureFilteringMode filtering_mode) {
   GlassTexture texture = {0};
   texture.width = width;
@@ -158,8 +164,8 @@ GlassTexture glass_init_texture(u8 *data, u32 width, u32 height,
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering_modes[filtering_mode]);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering_modes[filtering_mode]);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height,
-               0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+  glTexImage2D(GL_TEXTURE_2D, 0, pixel_kinds_gl[pixel_kind], width, height,
+               0, pixel_kinds_gl[pixel_kind], GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
 
   return texture;

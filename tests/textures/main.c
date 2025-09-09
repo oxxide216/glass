@@ -91,7 +91,8 @@ int main(void) {
   u8 *texture_data = stbi_load("tests/textures/textures/test-texture.jpg",
                                &width, &height, NULL, 4);
 
-  GlassTexture texture = glass_init_texture(texture_data, (u32) width, (u32) height,
+  GlassTexture texture = glass_init_texture(texture_data, (u32) width,
+                                            (u32) height, GlassPixelKindRGBA,
                                             GlassTextureFilteringModeNearest);
 
   stbi_image_free(texture_data);

@@ -29,6 +29,13 @@ typedef struct {
   GlassAttributes attributes;
 } GlassShader;
 
+typedef enum {
+  GlassPixelKindR = 0,
+  GlassPixelKindRGB,
+  GlassPixelKindRGBA,
+  GlassPixelKindsCount,
+} GlassPixelKind;
+
 typedef struct {
   u32 id;
   u32 width;
@@ -64,7 +71,7 @@ void            glass_put_object_data(GlassObject *object, void *vertices,
                                       u32 vertices_size, u32 *indices,
                                       u32 indices_size, u32 indices_count,
                                       bool is_mutable);
-GlassTexture    glass_init_texture(u8 *data, u32 width, u32 height,
+GlassTexture    glass_init_texture(u8 *data, u32 width, u32 height, GlassPixelKind pixel_kind,
                                    GlassTextureFilteringMode filtering_mode);
 u32             glass_push_texture(GlassObject *object, GlassTexture *texture);
 void            glass_render_object(GlassObject *object);
