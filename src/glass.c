@@ -167,8 +167,9 @@ GlassTexture glass_init_texture(u8 *data, u32 width, u32 height,
 
 void glass_push_texture(GlassObject *object, GlassTexture *texture) {
   DA_APPEND(object->textures, *texture);
-}
 
+  return object->textures.len - 1;
+}
 
 void glass_render_object(GlassObject *object) {
   glUseProgram(object->shader.id);

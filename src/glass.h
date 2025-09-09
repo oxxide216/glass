@@ -66,7 +66,7 @@ void            glass_put_object_data(GlassObject *object, void *vertices,
                                       bool is_mutable);
 GlassTexture    glass_init_texture(u8 *data, u32 width, u32 height,
                                    GlassTextureFilteringMode filtering_mode);
-void            glass_push_texture(GlassObject *object, GlassTexture *texture);
+u32             glass_push_texture(GlassObject *object, GlassTexture *texture);
 void            glass_render_object(GlassObject *object);
 
 #endif // GLASS_H
