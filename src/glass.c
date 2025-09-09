@@ -186,5 +186,7 @@ void glass_render_object(GlassObject *object) {
     glBindTexture(GL_TEXTURE_2D, object->textures.items[i].id);
   }
 
+  object->textures.len = 0;
+
   glDrawElements(GL_TRIANGLES, object->indices_count, GL_UNSIGNED_INT, NULL);
 }
