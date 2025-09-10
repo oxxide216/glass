@@ -4,6 +4,9 @@
 #include "glass.h"
 #include "math.h"
 
+void glass_set_param_texture(GlassShader *shader, char *name,
+                             GlassTextures *textures, u32 index);
+
 void glass_set_param_1f(GlassShader *shader, char *name, f32 param);
 void glass_set_param_2f(GlassShader *shader, char *name, Vec2 param);
 void glass_set_param_3f(GlassShader *shader, char *name, Vec3 param);
