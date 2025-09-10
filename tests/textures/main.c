@@ -91,9 +91,10 @@ int main(void) {
   u8 *texture_data = stbi_load("tests/textures/textures/test-texture.jpg",
                                &width, &height, NULL, 4);
 
-  GlassTexture texture = glass_init_texture(texture_data, (u32) width,
-                                            (u32) height, GlassPixelKindRGBA,
-                                            GlassTextureFilteringModeNearest);
+  GlassTextures textures = {0};
+  glass_init_texture(&textures, texture_data, (u32) width,
+                     (u32) height, GlassPixelKindRGBA,
+                     GlassTextureFilteringModeNearest);
 
   stbi_image_free(texture_data);
 
@@ -117,7 +118,6 @@ int main(void) {
   GlassObject texture_object = glass_init_object(&texture_shader);
   glass_put_object_data(&texture_object, texture_vertices, texture_vertices_size,
                         texture_indices, sizeof(texture_indices), 6, false);
-  glass_push_texture(&texture_object, &texture);
 
   bool is_running = true;
   while (is_running) {
@@ -130,7 +130,7 @@ int main(void) {
     }
 
     glass_clear_screen(0.1, 0.1, 0.1, 0.75);
-    glass_render_object(&texture_object);
+    glass_render_object(&texture_object, &textures);
     winx_draw(&window);
   }
 
