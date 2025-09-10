@@ -177,9 +177,11 @@ void glass_render_object(GlassObject *object, GlassTextures *textures) {
   glUseProgram(object->shader.id);
   glBindVertexArray(object->vertex_array);
 
-  for (u32 i = 0; i < textures->len; ++i) {
-    glActiveTexture(GL_TEXTURE0 + i);
-    glBindTexture(GL_TEXTURE_2D, textures->items[i].id);
+  if (textures) {
+    for (u32 i = 0; i < textures->len; ++i) {
+      glActiveTexture(GL_TEXTURE0 + i);
+      glBindTexture(GL_TEXTURE_2D, textures->items[i].id);
+    }
   }
 
   glDrawElements(GL_TRIANGLES, object->indices_count, GL_UNSIGNED_INT, NULL);
