@@ -2,11 +2,10 @@
 
 #include "params.h"
 
-void glass_set_param_texture(GlassShader *shader, char *name,
-                             GlassTextures *textures, u32 index) {
+void glass_set_param_texture(GlassShader *shader, char *name, GlassTexture *param) {
   glUseProgram(shader->id);
   GLint location = glGetUniformLocation(shader->id, name);
-  glUniform1i(location, textures->items[index].id);
+  glUniform1i(location, param->id);
 }
 
 void glass_set_param_1f(GlassShader *shader, char *name, f32 param) {

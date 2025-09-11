@@ -36,9 +36,9 @@ typedef enum {
 } GlassPixelKind;
 
 typedef enum {
-  GlassTextureFilteringModeNearest = 0,
-  GlassTextureFilteringModeLinear,
-} GlassTextureFilteringMode;
+  GlassFilteringModeNearest = 0,
+  GlassFilteringModeLinear,
+} GlassFilteringMode;
 
 typedef struct {
   u32 id;
@@ -46,32 +46,31 @@ typedef struct {
   u32 height;
 } GlassTexture;
 
-typedef Da(GlassTexture) GlassTextures;
-
 typedef struct {
   u32           vertex_array;
   u32           vertex_buffer;
   u32           index_buffer;
   u32           indices_count;
   GlassShader   shader;
-  GlassTextures textures;
 } GlassObject;
 
-void        glass_init(void);
-void        glass_enable_depth(void);
-void        glass_resize(u32 width, u32 height);
-void        glass_clear_screen(f32 r, f32 g, f32 b, f32 a);
-void        glass_push_attribute(GlassAttributes *attributes,
+void         glass_init(void);
+void         glass_enable_depth(void);
+void         glass_resize(u32 width, u32 height);
+void         glass_clear_screen(f32 r, f32 g, f32 b, f32 a);
+void         glass_push_attribute(GlassAttributes *attributes,
                                  GlassAttributeKind kind, u32 len);
-GlassShader glass_init_shader(Str vertex_src, Str fragment_src,
-                              GlassAttributes *attributes);
-GlassObject glass_init_object(GlassShader *shader);
-void        glass_put_object_data(GlassObject *object, void *vertices,
-                                  u32 vertices_size, u32 *indices,
-                                  u32 indices_size, u32 indices_count,
-                                  bool is_mutable);
-void        glass_init_texture(GlassTextures *textures, u8 *data, u32 width, u32 height,
-                               GlassPixelKind pixel_kind, GlassTextureFilteringMode filtering_mode);
-void        glass_render_object(GlassObject *object, GlassTextures *textures);
+GlassShader  glass_init_shader(Str vertex_src, Str fragment_src,
+                               GlassAttributes *attributes);
+GlassObject  glass_init_object(GlassShader *shader);
+void         glass_put_object_data(GlassObject *object, void *vertices,
+                                   u32 vertices_size, u32 *indices,
+                                   u32 indices_size, u32 indices_count,
+                                   bool is_mutable);
+GlassTexture glass_init_texture(GlassFilteringMode filtering_mode);
+void         glass_put_texture_data(GlassTexture *texture, u8 *data,
+                                    u32 width, u32 height,
+                                    GlassPixelKind pixel_kind);
+void         glass_render_object(GlassObject *object, GlassTexture *textures, u32 textures_len);
 
 #endif // GLASS_H

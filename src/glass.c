@@ -147,21 +147,28 @@ void glass_put_object_data(GlassObject *object, void *vertices,
   glBindVertexArray(0);
 }
 
-void glass_init_texture(GlassTextures *textures, u8 *data, u32 width, u32 height,
-                        GlassPixelKind pixel_kind, GlassTextureFilteringMode filtering_mode) {
+GlassTexture glass_init_texture(GlassFilteringMode filtering_mode) {
   GlassTexture texture = {0};
-  texture.width = width;
-  texture.height = height;
 
   glGenTextures(1, &texture.id);
   glBindTexture(GL_TEXTURE_2D, texture.id);
 
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
   GLenum filtering_modes[] = { GL_NEAREST, GL_LINEAR };
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filtering_modes[filtering_mode]);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filtering_modes[filtering_mode]);
+
+  return texture;
+}
+
+void glass_put_texture_data(GlassTexture *texture, u8 *data, u32 width, u32 height,
+                            GlassPixelKind pixel_kind) {
+  texture->width = width;
+  texture->height = height;
+
+  glBindTexture(GL_TEXTURE_2D, texture->id);
 
   if (pixel_kind == GlassPixelKindSingleColor)
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
@@ -169,19 +176,15 @@ void glass_init_texture(GlassTextures *textures, u8 *data, u32 width, u32 height
   glTexImage2D(GL_TEXTURE_2D, 0, pixel_kinds_gl[pixel_kind], width, height,
                0, pixel_kinds_gl[pixel_kind], GL_UNSIGNED_BYTE, data);
   glGenerateMipmap(GL_TEXTURE_2D);
-
-  DA_APPEND(*textures, texture);
 }
 
-void glass_render_object(GlassObject *object, GlassTextures *textures) {
+void glass_render_object(GlassObject *object, GlassTexture *textures, u32 textures_len) {
   glUseProgram(object->shader.id);
   glBindVertexArray(object->vertex_array);
 
-  if (textures) {
-    for (u32 i = 0; i < textures->len; ++i) {
-      glActiveTexture(GL_TEXTURE0 + i);
-      glBindTexture(GL_TEXTURE_2D, textures->items[i].id);
-    }
+  for (u32 i = 0; i < textures_len; ++i) {
+    glActiveTexture(GL_TEXTURE0 + i);
+    glBindTexture(GL_TEXTURE_2D, textures[i].id);
   }
 
   glDrawElements(GL_TRIANGLES, object->indices_count, GL_UNSIGNED_INT, NULL);
