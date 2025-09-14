@@ -1,9 +1,9 @@
 #ifndef GLASS_H
 #define GLASS_H
 
-#include "shl_defs.h"
-#include "shl_str.h"
-#include "shl_defs.h"
+#include "../../src/shl_defs.h"
+#include "../../src/shl_str.h"
+#include "../../src/shl_defs.h"
 
 typedef enum {
   GlassAttributeKindFloat = 0,

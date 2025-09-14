@@ -1,7 +1,7 @@
 #include <GL/glew.h>
 #include <GL/gl.h>
 
-#include "glass.h"
+#include "glass/glass.h"
 #include "shl_log.h"
 
 typedef struct {

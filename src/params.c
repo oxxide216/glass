@@ -1,6 +1,6 @@
 #include <GL/glew.h>
 
-#include "params.h"
+#include "glass/params.h"
 
 void glass_set_param_texture(GlassShader *shader, char *name, GlassTexture *param) {
   glUseProgram(shader->id);

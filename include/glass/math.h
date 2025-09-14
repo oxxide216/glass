@@ -1,7 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
-#include "shl_defs.h"
+#include "../../src/shl_defs.h"
 
 typedef struct {
   f32 x, y;
