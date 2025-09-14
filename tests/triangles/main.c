@@ -1,6 +1,6 @@
-#include "winx/src/winx.h"
-#include "winx/src/event.h"
-#include "glass.h"
+#include "winx/winx.h"
+#include "winx/event.h"
+#include "glass/glass.h"
 #include "shl_log.h"
 #include "shl_str.h"
 
@@ -84,8 +84,8 @@ int main(void) {
     }
 
     glass_clear_screen(0.0, 0.0, 0.0, 0.5);
-    glass_render_object(&triangle0);
-    glass_render_object(&triangle1);
+    glass_render_object(&triangle0, NULL, 0);
+    glass_render_object(&triangle1, NULL, 0);
     winx_draw(&window);
   }
 

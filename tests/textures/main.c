@@ -1,9 +1,9 @@
 #include "shl_log.h"
 
-#include "winx/src/winx.h"
-#include "winx/src/event.h"
-#include "glass.h"
-#include "params.h"
+#include "winx/winx.h"
+#include "winx/event.h"
+#include "glass/glass.h"
+#include "glass/params.h"
 #define STBI_NO_LINEAR
 #define STBI_NO_HDR
 #define STB_IMAGE_IMPLEMENTATION
