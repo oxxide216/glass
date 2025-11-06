@@ -137,8 +137,14 @@ void glass_put_object_data(GlassObject *object, void *vertices,
     GlassAttribute *attribute = object->shader.attributes.items + i;
     AttributeKindData *data = attrib_kinds_data + attribute->kind;
 
-    glVertexAttribPointer(i, attribute->len, data->gl_kind,
+    if (attribute->kind == GlassAttributeKindFloat ||
+        attribute->kind == GlassAttributeKindDouble)
+      glVertexAttribPointer(i, attribute->len, data->gl_kind,
                           GL_FALSE, object->shader.vertex_size, offset);
+    else
+      glVertexAttribIPointer(i, attribute->len, data->gl_kind,
+                             object->shader.vertex_size, offset);
+
     glEnableVertexAttribArray(i);
 
     offset += attribute->len * data->size;
