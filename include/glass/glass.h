@@ -71,6 +71,11 @@ GlassTexture glass_init_texture(GlassFilteringMode filtering_mode);
 void         glass_put_texture_data(GlassTexture *texture, u8 *data,
                                     u32 width, u32 height,
                                     GlassPixelKind pixel_kind);
-void         glass_render_object(GlassObject *object, GlassTexture *textures, u32 textures_len);
+void         glass_render_object(GlassObject *object,
+                                 GlassTexture *textures,
+                                 u32 textures_len);
+void         glass_render_object_raw(GlassObject *object,
+                                     i32 *texture_ids,
+                                     u32 texture_ids_len);
 
 #endif // GLASS_H

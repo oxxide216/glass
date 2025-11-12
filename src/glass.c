@@ -184,13 +184,29 @@ void glass_put_texture_data(GlassTexture *texture, u8 *data, u32 width, u32 heig
   glGenerateMipmap(GL_TEXTURE_2D);
 }
 
-void glass_render_object(GlassObject *object, GlassTexture *textures, u32 textures_len) {
+void glass_render_object(GlassObject *object,
+                         GlassTexture *textures,
+                         u32 textures_len) {
   glUseProgram(object->shader.id);
   glBindVertexArray(object->vertex_array);
 
   for (u32 i = 0; i < textures_len; ++i) {
     glActiveTexture(GL_TEXTURE0 + i);
     glBindTexture(GL_TEXTURE_2D, textures[i].id);
+  }
+
+  glDrawElements(GL_TRIANGLES, object->indices_count, GL_UNSIGNED_INT, NULL);
+}
+
+void glass_render_object_raw(GlassObject *object,
+                             i32 *texture_ids,
+                             u32 texture_ids_len) {
+  glUseProgram(object->shader.id);
+  glBindVertexArray(object->vertex_array);
+
+  for (u32 i = 0; i < texture_ids_len; ++i) {
+    glActiveTexture(GL_TEXTURE0 + i);
+    glBindTexture(GL_TEXTURE_2D, texture_ids[i]);
   }
 
   glDrawElements(GL_TRIANGLES, object->indices_count, GL_UNSIGNED_INT, NULL);

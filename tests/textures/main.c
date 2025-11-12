@@ -38,13 +38,15 @@ static Str texture_fragment_shader = STR_LIT(
   "}\n"
 );
 
-u32 get_texture_object_vertices(Vec2 **vertices, u32 window_width, u32 window_height) {
+u32 get_texture_object_vertices(Vec2 **vertices,
+                                u32 window_width,
+                                u32 window_height) {
   if (*vertices)
     free(*vertices);
 
   u32 size = 8 * sizeof(Vec2);
-
   *vertices = malloc(size);
+
   (*vertices)[0] = vec2(0.0, 0.0);
   (*vertices)[1] = vec2(0.0, 0.0);
   (*vertices)[2] = vec2((f32) window_width, 0.0);
@@ -92,8 +94,8 @@ int main(void) {
                                &width, &height, NULL, 4);
 
   GlassTexture texture = glass_init_texture(GlassFilteringModeNearest);
-  glass_put_texture_data(&texture, texture_data, (u32) width, (u32) height,
-                         GlassPixelKindRGBA);
+  glass_put_texture_data(&texture, texture_data, (u32) width,
+                         (u32) height, GlassPixelKindRGBA);
 
   stbi_image_free(texture_data);
 
