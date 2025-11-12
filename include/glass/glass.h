@@ -59,7 +59,7 @@ void         glass_enable_depth(void);
 void         glass_resize(u32 width, u32 height);
 void         glass_clear_screen(f32 r, f32 g, f32 b, f32 a);
 void         glass_push_attribute(GlassAttributes *attributes,
-                                 GlassAttributeKind kind, u32 len);
+                                  GlassAttributeKind kind, u32 len);
 GlassShader  glass_init_shader(Str vertex_src, Str fragment_src,
                                GlassAttributes *attributes);
 GlassObject  glass_init_object(GlassShader *shader);
