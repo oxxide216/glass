@@ -211,3 +211,20 @@ void glass_render_object_raw(GlassObject *object,
 
   glDrawElements(GL_TRIANGLES, object->indices_count, GL_UNSIGNED_INT, NULL);
 }
+
+void glass_destroy_shader(GlassShader *shader) {
+  glDeleteProgram(shader->id);
+}
+
+void glass_destroy_object(GlassObject *object) {
+  glDeleteVertexArrays(1, &object->vertex_array);
+
+  glDeleteBuffers(1, &object->vertex_buffer);
+  glDeleteBuffers(1, &object->index_buffer);
+
+  glass_destroy_shader(&object->shader);
+}
+
+void glass_destroy_texture(GlassTexture *texture) {
+  glDeleteTextures(1, &texture->id);
+}

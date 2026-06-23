@@ -89,6 +89,8 @@ int main(void) {
     winx_draw(&window);
   }
 
+  glass_destroy_object(&triangle1);
+  glass_destroy_object(&triangle0);
   winx_destroy_window(&window);
   winx_cleanup(&winx);
   return 0;

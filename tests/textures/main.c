@@ -135,6 +135,8 @@ int main(void) {
     winx_draw(&window);
   }
 
+  glass_destroy_object(&texture_object);
+  glass_destroy_texture(&texture);
   winx_destroy_window(&window);
   winx_cleanup(&winx);
   return 0;

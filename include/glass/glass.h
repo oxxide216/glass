@@ -77,5 +77,8 @@ void         glass_render_object(GlassObject *object,
 void         glass_render_object_raw(GlassObject *object,
                                      i32 *texture_ids,
                                      u32 texture_ids_len);
+void         glass_destroy_shader(GlassShader *shader);
+void         glass_destroy_object(GlassObject *object);
+void         glass_destroy_texture(GlassTexture *texture);
 
 #endif // GLASS_H
