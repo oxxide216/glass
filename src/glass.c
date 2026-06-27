@@ -1,4 +1,5 @@
-#include <GL/glew.h>
+#define GLAD_GL_IMPLEMENTATION
+#include <glad/gl.h>
 #include <GL/gl.h>
 
 #include "glass/glass.h"
@@ -25,14 +26,13 @@ static GLenum pixel_kinds_gl[GlassPixelKindsCount] = {
   [GlassPixelKindRGBA] = GL_RGBA,
 };
 
-void glass_init(void) {
-  GLenum result = glewInit();
-  if (GLEW_OK != result) {
-    ERROR("%s\n", glewGetErrorString(result));
+void glass_init(GlassLoadProcAddressProc proc_loader) {
+  i32 version = gladLoadGL(proc_loader);
+  if (version == 0) {
+    ERROR("Failed to initialize OpenGL context!\n");
     exit(1);
   }
 
-  glEnable(GL_ALPHA_TEST);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

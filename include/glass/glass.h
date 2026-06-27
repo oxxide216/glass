@@ -54,7 +54,10 @@ typedef struct {
   GlassShader   shader;
 } GlassObject;
 
-void         glass_init(void);
+typedef void (*GlassApiProc)(void);
+typedef GlassApiProc (*GlassLoadProcAddressProc)(const char *name);
+
+void         glass_init(GlassLoadProcAddressProc proc_loader);
 void         glass_enable_depth(void);
 void         glass_resize(u32 width, u32 height);
 void         glass_clear_screen(f32 r, f32 g, f32 b, f32 a);

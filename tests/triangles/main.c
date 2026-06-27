@@ -52,11 +52,11 @@ bool process_event(WinxEvent *event) {
 }
 
 int main(void) {
-  Winx winx = winx_init();
-  WinxWindow window = winx_init_window(&winx, STR_LIT("Glass test"),
-                                       640, 480, WinxGraphicsModeOpenGL,
-                                       NULL);
-  glass_init();
+  Winx *winx = winx_init();
+  WinxWindow *window = winx_init_window(winx, STR_LIT("Glass test"),
+                                        640, 480, WinxGraphicsModeOpenGL,
+                                        NULL);
+  glass_init(winx_load_proc_address);
 
   GlassAttributes attributes = {0};
   glass_push_attribute(&attributes, GlassAttributeKindFloat, 3);
@@ -77,7 +77,7 @@ int main(void) {
   bool is_running = true;
   while (is_running) {
     WinxEvent event;
-    while ((event = winx_get_event(&window, false)).kind != WinxEventKindNone) {
+    while ((event = winx_get_event(window, false)).kind != WinxEventKindNone) {
       is_running = process_event(&event);
       if (!is_running)
         break;
@@ -86,12 +86,12 @@ int main(void) {
     glass_clear_screen(0.0, 0.0, 0.0, 0.5);
     glass_render_object(&triangle0, NULL, 0);
     glass_render_object(&triangle1, NULL, 0);
-    winx_draw(&window);
+    winx_draw(window);
   }
 
   glass_destroy_object(&triangle1);
   glass_destroy_object(&triangle0);
-  winx_destroy_window(&window);
-  winx_cleanup(&winx);
+  winx_destroy_window(window);
+  winx_cleanup(winx);
   return 0;
 }
